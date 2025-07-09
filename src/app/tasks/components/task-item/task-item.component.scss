@@ -1,5 +1,8 @@
 :host {
   display: flex;
+  flex: 1;
+  max-width: 30rem;
+  min-width: 20rem;
 }
 
 .task {

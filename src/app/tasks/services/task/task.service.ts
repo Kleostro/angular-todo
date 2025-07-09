@@ -3,26 +3,41 @@ import { Injectable, signal } from '@angular/core';
 import { Observable, of, throwError } from 'rxjs';
 
 import { MESSAGE } from '@/app/shared/constants/message';
-import { Task } from '@/app/tasks/models/task.model';
+import { Task, TASK_STATUS } from '@/app/tasks/models/task.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class TaskService {
   private tasks = signal<Task[]>([
-    { description: 'Описание 1', id: 1, status: 'pending', title: 'Задача 1' },
     {
-      description: 'Описание 2',
-      id: 2,
-      status: 'completed',
-      title: 'Задача 2',
+      description: 'Написать крутое сопроводительное письмо и ждать только положительный ответ( Это важно, правда :) )',
+      id: 1,
+      status: TASK_STATUS.COMPLETED,
+      title: 'Оставить отклик на вакансию',
     },
-    { description: 'Описание 3', id: 3, status: 'pending', title: 'Задача 3' },
+    {
+      description: 'Реализовать простое ToDo приложение на Agnular',
+      id: 2,
+      status: TASK_STATUS.COMPLETED,
+      title: 'Выполнить тестовое задание',
+    },
+    {
+      description: 'Рассказать о том какой ты крутой разработчик и если тебя возьмут, то не пожалеют об этом',
+      id: 3,
+      status: TASK_STATUS.PENDING,
+      title: 'Пройти собеседование',
+    },
   ]);
 
-  public addTask(task: Task): Observable<Task> {
-    this.tasks.update((tasks) => [task, ...tasks]);
-    return of(task);
+  public addTask(task: Omit<Task, 'id'>): Observable<Task> {
+    const newTask = {
+      ...task,
+      id: this.tasks().length + 1,
+    };
+
+    this.tasks.update((tasks) => [newTask, ...tasks]);
+    return of(newTask);
   }
 
   public deleteTask(task: Task): Observable<Task> {

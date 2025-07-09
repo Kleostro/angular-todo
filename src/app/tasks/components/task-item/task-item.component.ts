@@ -5,7 +5,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { NavigationService } from '@/app/core/navigation/navigation.service';
-import { Task } from '@/app/tasks/models/task.model';
+import { Task, TASK_STATUS } from '@/app/tasks/models/task.model';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -16,6 +16,7 @@ import { Task } from '@/app/tasks/models/task.model';
 })
 export class TaskItemComponent {
   public readonly navigationService = inject(NavigationService);
+  public readonly TASK_STATUS = TASK_STATUS;
   public task = input<null | Task>();
   public taskDeleteEvent = output<Task>();
 }
