@@ -1,0 +1,7 @@
+@let tasks = this.tasks();
+
+<mat-list class="tasks-list">
+  @for (task of tasks; track task.id) {
+    <app-task-item [task]="task" />
+  }
+</mat-list>
