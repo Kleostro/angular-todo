@@ -1,0 +1,14 @@
+<form class="form" [formGroup]="this.searchForm">
+  <mat-form-field>
+    <mat-label>Search by</mat-label>
+    <mat-select formControlName="searchField">
+      @for (searchField of this.searchFields; track searchField) {
+        <mat-option value="{{ searchField.value }}">{{ searchField.label }}</mat-option>
+      }
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Search</mat-label>
+    <input matInput type="search" formControlName="search" />
+  </mat-form-field>
+</form>

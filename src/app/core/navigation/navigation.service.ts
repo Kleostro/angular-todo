@@ -12,7 +12,6 @@ import { APP_ROUTE } from '@/app/core/navigation/routes';
 export class NavigationService {
   private readonly location = inject(Location);
   private readonly router = inject(Router);
-
   public isDetailedTaskPage = signal(false);
 
   constructor() {
@@ -33,5 +32,9 @@ export class NavigationService {
 
   public navigateToTaskById(taskId: number): void {
     this.router.navigate([APP_ROUTE.TASKS, taskId]);
+  }
+
+  public navigateToTasks(): void {
+    this.router.navigate([APP_ROUTE.TASKS]);
   }
 }
