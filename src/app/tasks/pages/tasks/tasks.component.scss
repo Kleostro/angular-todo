@@ -5,10 +5,16 @@
 }
 
 .create-task-form-button {
-  margin-bottom: 2rem;
   width: max-content;
+  margin-bottom: 2rem;
 }
 
 .tasks-list {
   margin-top: 2rem;
+}
+
+.tasks-settings {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
 }

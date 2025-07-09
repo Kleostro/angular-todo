@@ -6,6 +6,7 @@ import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 import { catchError, EMPTY, Observable, Subject, switchMap, takeUntil, tap } from 'rxjs';
 
 import { MESSAGE } from '@/app/shared/constants/message';
+import { TaskFilterComponent } from '@/app/tasks/components/task-filter/task-filter.component';
 import { TaskFormComponent } from '@/app/tasks/components/task-form/task-form.component';
 import { TaskListComponent } from '@/app/tasks/components/task-list/task-list.component';
 import { TaskSearchingComponent } from '@/app/tasks/components/task-searching/task-searching.component';
@@ -20,7 +21,7 @@ const snackBarConfig: MatSnackBarConfig = {
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [TaskListComponent, TaskFormComponent, MatButtonModule, TaskSearchingComponent],
+  imports: [TaskListComponent, TaskFormComponent, MatButtonModule, TaskSearchingComponent, TaskFilterComponent],
   selector: 'app-tasks',
   styleUrl: './tasks.component.scss',
   templateUrl: './tasks.component.html',

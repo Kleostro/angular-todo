@@ -33,17 +33,31 @@ export class TaskService {
   public query = signal<TaskQuery>({});
 
   private applyQuery(): Task[] {
-    let result = [];
-    if (this.query().searchField === 'title') {
-      result = this.tasks().filter((t) => t.title.toLowerCase().includes(this.query().search?.toLowerCase() ?? ''));
-    } else if (this.query().searchField === 'description') {
-      result = this.tasks().filter((t) =>
-        t.description?.toLowerCase().includes(this.query().search?.toLowerCase() ?? ''),
-      );
-    } else {
-      return this.tasks();
-    }
-    return result;
+    const { filter, search, searchField } = this.query();
+
+    return this.tasks().filter((task) => {
+      let matchesSearch = true;
+      let matchesFilter = true;
+
+      if (search?.trim()) {
+        const lowerCaseSearch = search.toLowerCase();
+        if (searchField === 'title') {
+          matchesSearch = task.title.toLowerCase().includes(lowerCaseSearch);
+        } else if (searchField === 'description') {
+          matchesSearch = !!task.description?.toLowerCase().includes(lowerCaseSearch);
+        } else {
+          matchesSearch =
+            task.title.toLowerCase().includes(lowerCaseSearch) ||
+            !!task.description?.toLowerCase().includes(lowerCaseSearch);
+        }
+      }
+
+      if (filter) {
+        matchesFilter = task.status === filter;
+      }
+
+      return matchesSearch && matchesFilter;
+    });
   }
 
   public addTask(task: Omit<Task, 'id'>): Observable<Task> {
