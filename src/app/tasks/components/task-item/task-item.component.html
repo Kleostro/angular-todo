@@ -1,0 +1,23 @@
+@let task = this.task();
+@let taskStatusText = task?.status === 'pending' ? 'В процессе' : 'Выполнено';
+@let taskStatusIcon = task?.status === 'pending' ? 'schedule' : 'check';
+
+@if (task) {
+  <mat-card class="task">
+    <mat-card-header class="task-header">
+      <mat-card-title class="task-title">{{ task.title }}</mat-card-title>
+      <p class="task-status"><mat-icon [fontIcon]="taskStatusIcon" />{{ taskStatusText }}</p>
+    </mat-card-header>
+    <mat-card-content class="task-content">
+      <p class="task-description">{{ task.description }}</p>
+    </mat-card-content>
+    <mat-card-actions class="task-actions">
+      <button mat-mini-fab>
+        <mat-icon>delete</mat-icon>
+      </button>
+      <button mat-mini-fab>
+        <mat-icon>east</mat-icon>
+      </button>
+    </mat-card-actions>
+  </mat-card>
+}

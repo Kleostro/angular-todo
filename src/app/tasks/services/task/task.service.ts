@@ -10,7 +10,12 @@ import { Task } from '@/app/tasks/models/task.model';
 export class TaskService {
   private tasks = signal<Task[]>([
     { description: 'Description 1', id: 1, status: 'pending', title: 'Task 1' },
-    { description: 'Description 2', id: 2, status: 'completed', title: 'Task 2' },
+    {
+      description: 'Description 2',
+      id: 2,
+      status: 'completed',
+      title: 'Task 2',
+    },
     { description: 'Description 3', id: 3, status: 'pending', title: 'Task 3' },
     { description: 'Description 4', id: 4, status: 'pending', title: 'Task 4' },
   ]);
