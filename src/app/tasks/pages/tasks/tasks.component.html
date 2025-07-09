@@ -9,15 +9,20 @@
     <app-task-form (formSubmitEvent)="this.addTask($event)" />
   }
 
-  <div class="tasks-settings">
-    <app-task-searching />
-    <app-task-filter />
-  </div>
+  @if (this.tasks().length; as tasksCount) {
+    <strong class="task-count">Задачи: {{ tasksCount }}</strong>
+  }
 
-  <app-task-list
-    class="tasks-list"
-    [tasks]="this.tasks()"
-    (taskDeleteEvent)="this.deleteTask($event)"
-    (taskSwitchStatusEvent)="this.switchTaskStatus($event)"
-  />
+  <div class="tasks-wrapper">
+    <app-task-list
+      class="tasks-list"
+      [tasks]="this.tasks()"
+      (taskDeleteEvent)="this.deleteTask($event)"
+      (taskSwitchStatusEvent)="this.switchTaskStatus($event)"
+    />
+    <div class="tasks-settings">
+      <app-task-searching />
+      <app-task-filter />
+    </div>
+  </div>
 </div>

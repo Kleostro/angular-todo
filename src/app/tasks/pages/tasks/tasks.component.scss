@@ -9,12 +9,32 @@
   margin-bottom: 2rem;
 }
 
+.task-count {
+  margin: 2rem 0 1rem;
+  font-style: italic;
+}
+
+.tasks-wrapper {
+  position: relative;
+  display: flex;
+  gap: 1rem;
+}
+
 .tasks-list {
-  margin-top: 2rem;
+  max-width: 68.5%;
 }
 
 .tasks-settings {
+  position: sticky;
+  top: 1rem;
+
   display: flex;
+  flex-direction: column;
   gap: 1rem;
-  align-items: center;
+
+  width: 100%;
+  max-width: 28.5%;
+  height: 100%;
+  margin-left: auto;
+  padding-top: 0.5rem;
 }
