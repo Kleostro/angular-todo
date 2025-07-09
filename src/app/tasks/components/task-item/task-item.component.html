@@ -5,6 +5,7 @@
 @if (task) {
   <mat-card
     class="task"
+    [class.fluid]="fluid()"
     [class.completed]="task.status === TASK_STATUS.COMPLETED"
     [class.pending]="task.status === TASK_STATUS.PENDING"
   >
@@ -19,14 +20,16 @@
       <button mat-mini-fab matTooltip="Удалить" matTooltipPosition="above" (click)="this.taskDeleteEvent.emit(task)">
         <mat-icon>delete</mat-icon>
       </button>
-      <button
-        mat-mini-fab
-        matTooltip="Подробнее"
-        matTooltipPosition="above"
-        (click)="this.navigationService.navigateToTaskById(task.id)"
-      >
-        <mat-icon>east</mat-icon>
-      </button>
+      @if (!this.navigationService.isDetailedTaskPage()) {
+        <button
+          mat-mini-fab
+          matTooltip="Подробнее"
+          matTooltipPosition="above"
+          (click)="this.navigationService.navigateToTaskById(task.id)"
+        >
+          <mat-icon>east</mat-icon>
+        </button>
+      }
     </mat-card-actions>
   </mat-card>
 }

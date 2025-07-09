@@ -17,6 +17,7 @@ import { Task, TASK_STATUS } from '@/app/tasks/models/task.model';
 export class TaskItemComponent {
   public readonly navigationService = inject(NavigationService);
   public readonly TASK_STATUS = TASK_STATUS;
+  public fluid = input(false);
   public task = input<null | Task>();
   public taskDeleteEvent = output<Task>();
 }
