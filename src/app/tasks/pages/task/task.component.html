@@ -8,5 +8,10 @@
   >
     <mat-icon>keyboard_backspace</mat-icon>
   </button>
-  <app-task-item [task]="currentTask()" [fluid]="true" (taskDeleteEvent)="this.deleteTask($event)" />
+  <app-task-item
+    [task]="currentTask()"
+    [fluid]="true"
+    (taskDeleteEvent)="this.deleteTask($event)"
+    (taskSwitchStatusEvent)="this.switchTaskStatus($event)"
+  />
 </div>

@@ -20,4 +20,5 @@ export class TaskItemComponent {
   public fluid = input(false);
   public task = input<null | Task>();
   public taskDeleteEvent = output<Task>();
+  public taskSwitchStatusEvent = output<Task>();
 }

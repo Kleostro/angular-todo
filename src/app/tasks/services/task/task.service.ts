@@ -104,6 +104,10 @@ export class TaskService {
     );
   }
 
+  public resetQuery(): void {
+    this.query.set({});
+  }
+
   public updateTask(task: Task): Observable<Task> {
     this.tasks.update((tasks) => tasks.map((t) => (t.id === task.id ? task : t)));
     return of(task);

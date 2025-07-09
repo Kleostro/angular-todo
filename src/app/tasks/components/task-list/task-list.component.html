@@ -2,7 +2,11 @@
 
 <mat-list class="tasks-list">
   @for (task of tasks; track task.id) {
-    <app-task-item [task]="task" (taskDeleteEvent)="this.taskDeleteEvent.emit($event)" />
+    <app-task-item
+      [task]="task"
+      (taskDeleteEvent)="this.taskDeleteEvent.emit($event)"
+      (taskSwitchStatusEvent)="this.taskSwitchStatusEvent.emit($event)"
+    />
   } @empty {
     <mat-list-item>Задач нет</mat-list-item>
   }
