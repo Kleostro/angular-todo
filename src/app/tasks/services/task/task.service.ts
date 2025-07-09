@@ -17,7 +17,7 @@ export class TaskService {
       title: 'Оставить отклик на вакансию',
     },
     {
-      description: 'Реализовать простое ToDo приложение на Agnular',
+      description: 'Реализовать простое ToDo приложение на Angular',
       id: 2,
       status: TASK_STATUS.COMPLETED,
       title: 'Выполнить тестовое задание',
@@ -87,21 +87,6 @@ export class TaskService {
   public getTaskById(id: number): Observable<null | Task> {
     const task = this.tasks().find((t) => t.id === id);
     return of(task ?? null);
-  }
-
-  public isTask(task: unknown): task is Task {
-    return (
-      typeof task === 'object' &&
-      task !== null &&
-      'id' in task &&
-      'title' in task &&
-      'status' in task &&
-      'description' in task &&
-      typeof task.id === 'number' &&
-      typeof task.title === 'string' &&
-      typeof task.status === 'string' &&
-      (typeof task.description === 'string' || typeof task.description === 'undefined')
-    );
   }
 
   public resetQuery(): void {
