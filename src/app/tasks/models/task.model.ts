@@ -10,4 +10,9 @@ export interface Task {
   title: string;
 }
 
+export interface TaskQuery {
+  search?: string;
+  searchField?: string;
+}
+
 export type TaskStatus = (typeof TASK_STATUS)[keyof typeof TASK_STATUS];

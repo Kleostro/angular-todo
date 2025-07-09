@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject, OnDestroy, OnInit, signal } from '@angular/core';
+import { toObservable } from '@angular/core/rxjs-interop';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 
@@ -7,7 +8,8 @@ import { catchError, EMPTY, Observable, Subject, switchMap, takeUntil, tap } fro
 import { MESSAGE } from '@/app/shared/constants/message';
 import { TaskFormComponent } from '@/app/tasks/components/task-form/task-form.component';
 import { TaskListComponent } from '@/app/tasks/components/task-list/task-list.component';
-import { Task } from '@/app/tasks/models/task.model';
+import { TaskSearchingComponent } from '@/app/tasks/components/task-searching/task-searching.component';
+import { Task, TaskQuery } from '@/app/tasks/models/task.model';
 import { TaskService } from '@/app/tasks/services/task/task.service';
 
 const snackBarConfig: MatSnackBarConfig = {
@@ -18,7 +20,7 @@ const snackBarConfig: MatSnackBarConfig = {
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [TaskListComponent, TaskFormComponent, MatButtonModule],
+  imports: [TaskListComponent, TaskFormComponent, MatButtonModule, TaskSearchingComponent],
   selector: 'app-tasks',
   styleUrl: './tasks.component.scss',
   templateUrl: './tasks.component.html',
@@ -27,6 +29,7 @@ export class TasksComponent implements OnDestroy, OnInit {
   private readonly destroy$ = new Subject<void>();
   private readonly snackBar = inject(MatSnackBar);
   private readonly taskService = inject(TaskService);
+  private taskQuery: Observable<TaskQuery> = toObservable(this.taskService.query);
   public readonly tasks = signal<Task[]>([]);
   public isShowTaskForm = signal(false);
 
@@ -70,5 +73,12 @@ export class TasksComponent implements OnDestroy, OnInit {
 
   public ngOnInit(): void {
     this.loadTasks().subscribe();
+
+    this.taskQuery
+      .pipe(
+        takeUntil(this.destroy$),
+        switchMap(() => this.loadTasks()),
+      )
+      .subscribe();
   }
 }

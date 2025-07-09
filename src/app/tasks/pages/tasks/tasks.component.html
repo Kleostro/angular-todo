@@ -9,5 +9,7 @@
     <app-task-form (formSubmitEvent)="this.addTask($event)" />
   }
 
+  <app-task-searching />
+
   <app-task-list class="tasks-list" [tasks]="this.tasks()" (taskDeleteEvent)="this.deleteTask($event)" />
 </div>

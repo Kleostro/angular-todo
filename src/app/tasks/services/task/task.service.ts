@@ -3,7 +3,7 @@ import { Injectable, signal } from '@angular/core';
 import { Observable, of, throwError } from 'rxjs';
 
 import { MESSAGE } from '@/app/shared/constants/message';
-import { Task, TASK_STATUS } from '@/app/tasks/models/task.model';
+import { Task, TASK_STATUS, TaskQuery } from '@/app/tasks/models/task.model';
 
 @Injectable({
   providedIn: 'root',
@@ -30,6 +30,22 @@ export class TaskService {
     },
   ]);
 
+  public query = signal<TaskQuery>({});
+
+  private applyQuery(): Task[] {
+    let result = [];
+    if (this.query().searchField === 'title') {
+      result = this.tasks().filter((t) => t.title.toLowerCase().includes(this.query().search?.toLowerCase() ?? ''));
+    } else if (this.query().searchField === 'description') {
+      result = this.tasks().filter((t) =>
+        t.description?.toLowerCase().includes(this.query().search?.toLowerCase() ?? ''),
+      );
+    } else {
+      return this.tasks();
+    }
+    return result;
+  }
+
   public addTask(task: Omit<Task, 'id'>): Observable<Task> {
     const newTask = {
       ...task,
@@ -51,7 +67,7 @@ export class TaskService {
   }
 
   public getAllTasks(): Observable<Task[]> {
-    return of(this.tasks());
+    return of(this.applyQuery());
   }
 
   public getTaskById(id: number): Observable<null | Task> {
