@@ -1,1 +1,11 @@
-<app-task-list [tasks]="this.tasks()" (taskDeleteEvent)="this.deleteTask($event)" />
+@let taskFormButtonText = this.isShowTaskForm() ? 'Закрыть' : 'Создать задачу';
+
+<button class="create-task-form-button" mat-flat-button (click)="this.isShowTaskForm.set(!this.isShowTaskForm())">
+  {{ taskFormButtonText }}
+</button>
+
+@if (this.isShowTaskForm()) {
+  <app-task-form (formSubmitEvent)="this.addTask($event)" />
+}
+
+<app-task-list class="tasks-list" [tasks]="this.tasks()" (taskDeleteEvent)="this.deleteTask($event)" />
