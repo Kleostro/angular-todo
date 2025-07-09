@@ -1,0 +1,7 @@
+<form class="form" [formGroup]="this.filterForm">
+  <mat-radio-group formControlName="filter" class="form-radio-group">
+    @for (filterField of this.filterFields; track filterField) {
+      <mat-radio-button value="{{ filterField.value }}">{{ filterField.label }}</mat-radio-button>
+    }
+  </mat-radio-group>
+</form>

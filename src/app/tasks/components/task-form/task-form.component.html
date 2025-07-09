@@ -1,0 +1,38 @@
+@let hasTitleRequiredError = this.form.controls['title'].errors?.['required'];
+
+<form class="form" [formGroup]="this.form" (submit)="this.submitForm()">
+  <mat-form-field class="example-full-width">
+    <mat-label>Название</mat-label>
+    <input type="text" matInput formControlName="title" placeholder="Название задачи" />
+
+    @if (hasTitleRequiredError) {
+      <mat-error>Обязательное поле</mat-error>
+    }
+  </mat-form-field>
+
+  <mat-form-field class="example-full-width">
+    <mat-label>Описание</mat-label>
+    <textarea class="description" matInput formControlName="description" placeholder="Описание задачи"></textarea>
+  </mat-form-field>
+
+  <div class="form-actions">
+    <button
+      class="submit-btn"
+      matTooltip="Создать задачу"
+      matTooltipPosition="above"
+      mat-mini-fab
+      [disabled]="this.form.invalid"
+    >
+      <mat-icon>check_circle</mat-icon>
+    </button>
+    <button
+      class="reset-btn"
+      matTooltip="Очистить форму"
+      matTooltipPosition="above"
+      mat-mini-fab
+      (click)="this.resetForm()"
+    >
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+</form>

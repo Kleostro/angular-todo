@@ -1,0 +1,43 @@
+@let task = this.task();
+@let taskStatusText = task?.status === TASK_STATUS.PENDING ? 'В процессе' : 'Выполнено';
+@let taskStatusButtonText = task?.status === TASK_STATUS.PENDING ? 'Отметить как выполнено' : 'Отметить как в процессе';
+@let taskStatusIcon = task?.status === TASK_STATUS.PENDING ? 'schedule' : 'check';
+
+@if (task) {
+  <mat-card
+    class="task"
+    [class.fluid]="fluid()"
+    [class.completed]="task.status === TASK_STATUS.COMPLETED"
+    [class.pending]="task.status === TASK_STATUS.PENDING"
+  >
+    <mat-card-header class="task-header">
+      <button
+        mat-raised-button
+        [matTooltip]="taskStatusButtonText"
+        matTooltipPosition="above"
+        (click)="this.taskSwitchStatusEvent.emit(task)"
+      >
+        <p class="task-status"><mat-icon [fontIcon]="taskStatusIcon" />{{ taskStatusText }}</p>
+      </button>
+      <mat-card-title class="task-title">{{ task.title }}</mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="task-content">
+      <p class="task-description">{{ task.description }}</p>
+    </mat-card-content>
+    <mat-card-actions class="task-actions">
+      <button mat-mini-fab matTooltip="Удалить" matTooltipPosition="above" (click)="this.taskDeleteEvent.emit(task)">
+        <mat-icon>delete</mat-icon>
+      </button>
+      @if (!this.navigationService.isDetailedTaskPage()) {
+        <button
+          mat-mini-fab
+          matTooltip="Подробнее"
+          matTooltipPosition="above"
+          (click)="this.navigationService.navigateToTaskById(task.id)"
+        >
+          <mat-icon>east</mat-icon>
+        </button>
+      }
+    </mat-card-actions>
+  </mat-card>
+}

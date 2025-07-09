@@ -1,0 +1,17 @@
+<div class="page">
+  <button
+    class="back-button"
+    mat-mini-fab
+    matTooltip="Назад"
+    matTooltipPosition="above"
+    (click)="this.navigationService.goBack()"
+  >
+    <mat-icon>keyboard_backspace</mat-icon>
+  </button>
+  <app-task-item
+    [task]="currentTask()"
+    [fluid]="true"
+    (taskDeleteEvent)="this.deleteTask($event)"
+    (taskSwitchStatusEvent)="this.switchTaskStatus($event)"
+  />
+</div>

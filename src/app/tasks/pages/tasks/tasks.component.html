@@ -1,0 +1,23 @@
+@let taskFormButtonText = this.isShowTaskForm() ? 'Закрыть' : 'Создать задачу';
+
+<div class="page">
+  <button class="create-task-form-button" mat-flat-button (click)="this.isShowTaskForm.set(!this.isShowTaskForm())">
+    {{ taskFormButtonText }}
+  </button>
+
+  @if (this.isShowTaskForm()) {
+    <app-task-form (formSubmitEvent)="this.addTask($event)" />
+  }
+
+  <div class="tasks-settings">
+    <app-task-searching />
+    <app-task-filter />
+  </div>
+
+  <app-task-list
+    class="tasks-list"
+    [tasks]="this.tasks()"
+    (taskDeleteEvent)="this.deleteTask($event)"
+    (taskSwitchStatusEvent)="this.switchTaskStatus($event)"
+  />
+</div>
