@@ -10,7 +10,7 @@ import { catchError, EMPTY, Subject, takeUntil, tap } from 'rxjs';
 import { NavigationService } from '@/app/core/navigation/navigation.service';
 import { MESSAGE } from '@/app/shared/constants/message';
 import { TaskItemComponent } from '@/app/tasks/components/task-item/task-item.component';
-import { Task } from '@/app/tasks/models/task.model';
+import { Task, TASK_STATUS } from '@/app/tasks/models/task.model';
 import { TaskService } from '@/app/tasks/services/task/task.service';
 
 const snackBarConfig: MatSnackBarConfig = {
@@ -64,6 +64,27 @@ export class TaskComponent implements OnDestroy, OnInit {
           if (this.taskService.isTask(task)) {
             this.currentTask.set(task);
           }
+        }),
+      )
+      .subscribe();
+  }
+
+  public switchTaskStatus(task: Task): void {
+    const updatedTask = {
+      ...task,
+      status: task.status === TASK_STATUS.PENDING ? TASK_STATUS.COMPLETED : TASK_STATUS.PENDING,
+    };
+    this.taskService
+      .updateTask(updatedTask)
+      .pipe(
+        takeUntil(this.destroy$),
+        tap(() => {
+          this.snackBar.open(MESSAGE.SWITCH_TASK_STATUS_SUCCESS, 'Закрыть', snackBarConfig);
+          this.currentTask.set(updatedTask);
+        }),
+        catchError((error: Error) => {
+          this.snackBar.open(error.message, 'Закрыть', snackBarConfig);
+          return EMPTY;
         }),
       )
       .subscribe();

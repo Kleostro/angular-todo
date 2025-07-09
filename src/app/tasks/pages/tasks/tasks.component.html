@@ -14,5 +14,10 @@
     <app-task-filter />
   </div>
 
-  <app-task-list class="tasks-list" [tasks]="this.tasks()" (taskDeleteEvent)="this.deleteTask($event)" />
+  <app-task-list
+    class="tasks-list"
+    [tasks]="this.tasks()"
+    (taskDeleteEvent)="this.deleteTask($event)"
+    (taskSwitchStatusEvent)="this.switchTaskStatus($event)"
+  />
 </div>

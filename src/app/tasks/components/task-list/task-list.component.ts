@@ -14,4 +14,5 @@ import { Task } from '@/app/tasks/models/task.model';
 export class TaskListComponent {
   public taskDeleteEvent = output<Task>();
   public tasks = input<Task[]>([]);
+  public taskSwitchStatusEvent = output<Task>();
 }

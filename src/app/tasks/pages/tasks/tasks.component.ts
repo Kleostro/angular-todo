@@ -10,7 +10,7 @@ import { TaskFilterComponent } from '@/app/tasks/components/task-filter/task-fil
 import { TaskFormComponent } from '@/app/tasks/components/task-form/task-form.component';
 import { TaskListComponent } from '@/app/tasks/components/task-list/task-list.component';
 import { TaskSearchingComponent } from '@/app/tasks/components/task-searching/task-searching.component';
-import { Task, TaskQuery } from '@/app/tasks/models/task.model';
+import { Task, TASK_STATUS, TaskQuery } from '@/app/tasks/models/task.model';
 import { TaskService } from '@/app/tasks/services/task/task.service';
 
 const snackBarConfig: MatSnackBarConfig = {
@@ -73,6 +73,7 @@ export class TasksComponent implements OnDestroy, OnInit {
   }
 
   public ngOnInit(): void {
+    this.taskService.resetQuery();
     this.loadTasks().subscribe();
 
     this.taskQuery
@@ -81,5 +82,13 @@ export class TasksComponent implements OnDestroy, OnInit {
         switchMap(() => this.loadTasks()),
       )
       .subscribe();
+  }
+
+  public switchTaskStatus(task: Task): void {
+    const updatedTask = {
+      ...task,
+      status: task.status === TASK_STATUS.PENDING ? TASK_STATUS.COMPLETED : TASK_STATUS.PENDING,
+    };
+    this.handleTaskAction(this.taskService.updateTask(updatedTask), MESSAGE.SWITCH_TASK_STATUS_SUCCESS);
   }
 }
