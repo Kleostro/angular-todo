@@ -1,7 +1,8 @@
 import { Injectable, signal } from '@angular/core';
 
-import { Observable, of } from 'rxjs';
+import { Observable, of, throwError } from 'rxjs';
 
+import { MESSAGE } from '@/app/shared/constants/message';
 import { Task } from '@/app/tasks/models/task.model';
 
 @Injectable({
@@ -9,15 +10,14 @@ import { Task } from '@/app/tasks/models/task.model';
 })
 export class TaskService {
   private tasks = signal<Task[]>([
-    { description: 'Description 1', id: 1, status: 'pending', title: 'Task 1' },
+    { description: 'Описание 1', id: 1, status: 'pending', title: 'Задача 1' },
     {
-      description: 'Description 2',
+      description: 'Описание 2',
       id: 2,
       status: 'completed',
-      title: 'Task 2',
+      title: 'Задача 2',
     },
-    { description: 'Description 3', id: 3, status: 'pending', title: 'Task 3' },
-    { description: 'Description 4', id: 4, status: 'pending', title: 'Task 4' },
+    { description: 'Описание 3', id: 3, status: 'pending', title: 'Задача 3' },
   ]);
 
   public addTask(task: Task): Observable<Task> {
@@ -26,6 +26,11 @@ export class TaskService {
   }
 
   public deleteTask(task: Task): Observable<Task> {
+    const candidateTask = this.tasks().find((t) => t.id === task.id);
+    if (!candidateTask) {
+      return throwError(() => new Error(MESSAGE.TASK_NOT_FOUND));
+    }
+
     this.tasks.update((tasks) => tasks.filter((t) => t.id !== task.id));
     return of(task);
   }

@@ -9,6 +9,14 @@
   min-height: 30rem;
   flex: 1;
 
+  &.completed {
+    background-color: lightgreen;
+  }
+
+  &.pending {
+    background-color: skyblue;
+  }
+
   &-header {
     display: flex;
     align-items: flex-start;
