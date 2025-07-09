@@ -10,6 +10,7 @@ import { catchError, EMPTY, Subject, takeUntil, tap } from 'rxjs';
 import { NavigationService } from '@/app/core/navigation/navigation.service';
 import { MESSAGE } from '@/app/shared/constants/message';
 import { TaskItemComponent } from '@/app/tasks/components/task-item/task-item.component';
+import { isTask } from '@/app/tasks/helpers/isTask';
 import { Task, TASK_STATUS } from '@/app/tasks/models/task.model';
 import { TaskService } from '@/app/tasks/services/task/task.service';
 
@@ -61,7 +62,7 @@ export class TaskComponent implements OnDestroy, OnInit {
       .pipe(
         takeUntil(this.destroy$),
         tap(({ task }) => {
-          if (this.taskService.isTask(task)) {
+          if (isTask(task)) {
             this.currentTask.set(task);
           }
         }),
