@@ -1,1 +1,1 @@
-<app-task-list [tasks]="this.tasks()" />
+<app-task-list [tasks]="this.tasks()" (taskDeleteEvent)="this.deleteTask($event)" />

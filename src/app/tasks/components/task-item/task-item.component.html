@@ -3,7 +3,7 @@
 @let taskStatusIcon = task?.status === 'pending' ? 'schedule' : 'check';
 
 @if (task) {
-  <mat-card class="task">
+  <mat-card class="task" [class.completed]="task.status === 'completed'" [class.pending]="task.status === 'pending'">
     <mat-card-header class="task-header">
       <mat-card-title class="task-title">{{ task.title }}</mat-card-title>
       <p class="task-status"><mat-icon [fontIcon]="taskStatusIcon" />{{ taskStatusText }}</p>
@@ -12,10 +12,15 @@
       <p class="task-description">{{ task.description }}</p>
     </mat-card-content>
     <mat-card-actions class="task-actions">
-      <button mat-mini-fab>
+      <button mat-mini-fab matTooltip="Удалить" matTooltipPosition="above" (click)="this.taskDeleteEvent.emit(task)">
         <mat-icon>delete</mat-icon>
       </button>
-      <button mat-mini-fab>
+      <button
+        mat-mini-fab
+        matTooltip="Подробнее"
+        matTooltipPosition="above"
+        (click)="this.navigationService.navigateToTaskById(task.id)"
+      >
         <mat-icon>east</mat-icon>
       </button>
     </mat-card-actions>
