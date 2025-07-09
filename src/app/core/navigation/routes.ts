@@ -7,6 +7,6 @@ export const APP_PATH = {
 
 export const APP_ROUTE = {
   HOME: '/',
-  NOT_FOUND: `/${APP_PATH.NOT_FOUND.toLowerCase()}`,
+  NOT_FOUND: `/${APP_PATH.NOT_FOUND}`,
   TASKS: `/${APP_PATH.TASKS.toLowerCase()}`,
 } as const;
