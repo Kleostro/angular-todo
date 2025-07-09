@@ -11,6 +11,7 @@ export interface Task {
 }
 
 export interface TaskQuery {
+  filter?: string;
   search?: string;
   searchField?: string;
 }

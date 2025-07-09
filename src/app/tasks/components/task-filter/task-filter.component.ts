@@ -1,33 +1,32 @@
 import { ChangeDetectionStrategy, Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatSelectModule } from '@angular/material/select';
+import { MatRadioModule } from '@angular/material/radio';
 
 import { debounceTime, distinctUntilChanged, Subject, takeUntil, tap } from 'rxjs';
 
+import { TASK_STATUS } from '@/app/tasks/models/task.model';
 import { TaskService } from '@/app/tasks/services/task/task.service';
 
 const DEBOUNCE_TIME = 400;
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [MatInputModule, MatFormFieldModule, ReactiveFormsModule, MatSelectModule],
-  selector: 'app-task-searching',
-  styleUrl: './task-searching.component.scss',
-  templateUrl: './task-searching.component.html',
+  imports: [ReactiveFormsModule, MatRadioModule],
+  selector: 'app-task-filter',
+  styleUrl: './task-filter.component.scss',
+  templateUrl: './task-filter.component.html',
 })
-export class TaskSearchingComponent implements OnDestroy, OnInit {
+export class TaskFilterComponent implements OnDestroy, OnInit {
   private readonly destroy$ = new Subject<void>();
   private readonly fb = inject(FormBuilder).nonNullable;
   private readonly taskService = inject(TaskService);
-  public readonly searchFields = [
-    { label: 'Названию', value: 'title' },
-    { label: 'Описанию', value: 'description' },
+  public readonly filterFields = [
+    { label: 'Все', value: '' },
+    { label: 'В процессе', value: TASK_STATUS.PENDING },
+    { label: 'Выполнено', value: TASK_STATUS.COMPLETED },
   ];
-  public readonly searchForm = this.fb.group({
-    search: [''],
-    searchField: [this.searchFields[0].value],
+  public readonly filterForm = this.fb.group({
+    filter: [''],
   });
 
   public ngOnDestroy(): void {
@@ -36,7 +35,7 @@ export class TaskSearchingComponent implements OnDestroy, OnInit {
   }
 
   public ngOnInit(): void {
-    this.searchForm.valueChanges
+    this.filterForm.valueChanges
       .pipe(
         takeUntil(this.destroy$),
         debounceTime(DEBOUNCE_TIME),
@@ -44,8 +43,7 @@ export class TaskSearchingComponent implements OnDestroy, OnInit {
         tap((formFalue) => {
           this.taskService.query.update((q) => ({
             ...q,
-            search: formFalue.search,
-            searchField: formFalue.searchField,
+            filter: formFalue.filter,
           }));
         }),
       )
